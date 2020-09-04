@@ -258,7 +258,7 @@ class MapperGUI(tk.Tk):
     
     def set_square(self, x, y, i):
         self.canvas.delete(self.buttons[(x*self.maze_dims[1])+y])
-        img = ImageTk.PhotoImage(Image.open(base_path + i))
+        img = ImageTk.PhotoImage(Image.open(base_path + "images/"+ i))
         #self.canvas.create_image(x*50, y*50, anchor=tk.NW, image=img) 
         b = tk.Button(self.canvas, image=img, command=lambda x=x, y=y, i=i: self.toggle_pressed(x, y, i), relief=tk.FLAT)
         b_window = self.canvas.create_window(x*50, y*50, width=50, height=50, anchor=tk.NW, window=b)
