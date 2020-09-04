@@ -1,3 +1,6 @@
+'''Ok, so. This is not amazing code whatsoever. I know there are bits which could be written
+a lot better in fewer lines and whatnot, but it works well enough as is right now'''
+
 import tkinter as tk
 from PIL import ImageTk,Image  
 import networkx as nx
@@ -57,9 +60,6 @@ class MapperOptions(tk.Tk):
         m = MapperGUI(x, y)
         m.mainloop()
 
-        
-                
-        
 
 class MapperGUI(tk.Tk):
     def __init__(self, mazex, mazey, *args, **kwargs):
@@ -112,15 +112,12 @@ class MapperGUI(tk.Tk):
             return "dot.png"
         return s + ".png"
     
-
-
     def coord_to_name(self,x , y):
         return str(x) + "," + str(y)
     
     def name_to_coord(self, s):
         return [int(x) for x in s.split(",")]
         
-
     def name_to_joins(self, s):
         if "dead" in s:
             return [True for i in range(10)]
@@ -148,7 +145,6 @@ class MapperGUI(tk.Tk):
             self.last_pressed = (x, y)
             return
 
-        
         up, down, left, right = None, None, None, None
         pressed = (x, y)
         if pressed[1] > 0:
@@ -159,7 +155,6 @@ class MapperGUI(tk.Tk):
             left = self.functional_maze[pressed[1]][pressed[0]-1]
         if pressed[0] < self.maze_dims[0]-1:
             right = self.functional_maze[pressed[1]][pressed[0]+1]
-        #print(self.check_cycles(), self.graph.edges)
 
         elligible = [False, False, False, False]
 
@@ -189,7 +184,6 @@ class MapperGUI(tk.Tk):
                     elligible[3] = True
                 self.graph.remove_edge(self.coord_to_name(pressed[0], pressed[1]+1), self.coord_to_name(pressed[0], pressed[1]) )
         
-        print(elligible)
         count = sum([1 for x in elligible if x])
         if count >1:
             last = [False, False, False, False]
@@ -259,7 +253,6 @@ class MapperGUI(tk.Tk):
     def set_square(self, x, y, i):
         self.canvas.delete(self.buttons[(x*self.maze_dims[1])+y])
         img = ImageTk.PhotoImage(Image.open(base_path + "images/"+ i))
-        #self.canvas.create_image(x*50, y*50, anchor=tk.NW, image=img) 
         b = tk.Button(self.canvas, image=img, command=lambda x=x, y=y, i=i: self.toggle_pressed(x, y, i), relief=tk.FLAT)
         b_window = self.canvas.create_window(x*50, y*50, width=50, height=50, anchor=tk.NW, window=b)
         self.buttons[(x*self.maze_dims[1])+y] = b_window
